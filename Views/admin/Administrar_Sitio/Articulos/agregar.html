@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Agregar Articulo</title>
+<link rel="stylesheet" href="../../../../css/layout.css" type="text/css" media="screen" />
+<script src="../../../../js/jquery-1.9.1.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(".submit_link").find("input").eq(0).click(function(e) {
+		//esto se hace porq no es un formulario, se crea el formulario
+		
+		var datos = new FormData();
+		datos.append('id_pagina', $("#id_pagina").val());
+		datos.append('nombre_articulo', $("#nombre_articulo").val());
+		datos.append('tipo_articulo', $("#tipo_articulo").val());
+		datos.append('imagen', $("#imagen")[0].files[0]);
+		datos.append('descripcion', $("#descripcion").val());
+	    
+		
+		
+		var miAjax = $.ajax({
+			async: false,
+			type: 'POST',
+			url: 'request_articulo.php',
+			data:datos,
+			contentType:false,
+			processData:false,
+			cache:false,
+			beforeSend: function()
+			{
+				console.log('enviando datos a la bd...')
+				
+			},
+			success: function(resp)
+			{
+				console.log(resp)
+			}
+			
+		  })
+		  .done(function() {  
+		 	
+			 $(location).attr("href","index.php");
+		 });
+		  
+	
+    });
+	
+		
+	
+});
+</script>
+</head>
+
+<body>
+
+<article class="module width_full">
+			<header><h3 style="padding-left: 22px;">Nuevo Articulo</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>Ubicación</label>
+							<select name="id_pagina" id="id_pagina">
+							  <option value="2">Index</option>
+							  
+							</select>
+						</fieldset>
+                        
+                        <fieldset>
+							<label>Titulo</label>
+							<input type="text" id="nombre_articulo">
+						</fieldset>
+                        
+                        <fieldset>
+                        <label>Tipo Articulo</label>
+                        <select name="tipo_articulo" id="tipo_articulo">
+                          <option value="Normal">Normal</option>
+                          <option value="Informativo">Informativo</option>
+                        </select>                                               
+                        </fieldset> 
+                         
+                                            
+                        <fieldset>
+							<label>Imagen</label>
+							<input type="file" class="file-input" size="32" id="imagen">
+						</fieldset>
+                        
+                        
+						<fieldset>
+							<label>Descripción</label>
+							<textarea rows="12" id="descripcion"></textarea>
+						</fieldset>
+				  
+						<div class="clear"></div>
+				</div>
+			<footer>
+				<div class="submit_link">
+					
+					<input type="button" value="Guardar" class="alt_btn">
+				  <input type="button" value="Cancelar">
+			  </div>
+			</footer>
+		</article>
+
+</body>
+</html>
